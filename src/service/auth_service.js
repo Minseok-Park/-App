@@ -4,6 +4,8 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   GithubAuthProvider,
+  onAuthStateChanged,
+  signOut,
 } from "firebase/auth";
 
 class AuthService {
@@ -22,6 +24,19 @@ class AuthService {
     const auth = getAuth();
 
     return signInWithPopup(auth, provider);
+  }
+
+  onAuthChange(onUserChanged) {
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, (user) => {
+      onUserChanged(user);
+    });
+  }
+
+  logout() {
+    const auth = getAuth();
+    return signOut(auth);
   }
 }
 
