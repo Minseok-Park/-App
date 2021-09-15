@@ -8,6 +8,6 @@ const config = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(config);
 
-export const firebaseApp = initializeApp(config);
+export const firebaseApp = app;
