@@ -1,11 +1,18 @@
-import React from "react";
-import Button from "../button/button";
-import styles from "./card_edit_form.module.css";
+import React, { memo, useRef } from 'react';
+import styles from './card_edit_form.module.css';
+import Button from '../button/button';
 
-const CardEditForm = ({ FileInput, card, updateCard, onRemove }) => {
+const CardEditForm = memo(({ FileInput, card, updateCard, deleteCard }) => {
+  const nameRef = useRef();
+  const companyRef = useRef();
+  const themeRef = useRef();
+  const titleRef = useRef();
+  const emailRef = useRef();
+  const messageRef = useRef();
+
   const { name, company, title, email, message, theme, fileName } = card;
 
-  const onFileChange = (file) => {
+  const onFileChange = file => {
     updateCard({
       ...card,
       fileName: file.name,
@@ -13,7 +20,7 @@ const CardEditForm = ({ FileInput, card, updateCard, onRemove }) => {
     });
   };
 
-  const onChange = (event) => {
+  const onChange = event => {
     if (event.currentTarget == null) {
       return;
     }
@@ -24,9 +31,8 @@ const CardEditForm = ({ FileInput, card, updateCard, onRemove }) => {
     });
   };
 
-  const onSubmit = (event) => {
-    event.preventDefault();
-    onRemove(card);
+  const onSubmit = () => {
+    deleteCard(card);
   };
 
   return (
@@ -35,6 +41,7 @@ const CardEditForm = ({ FileInput, card, updateCard, onRemove }) => {
         className={styles.input}
         type="text"
         name="name"
+        ref={nameRef}
         value={name}
         onChange={onChange}
       />
@@ -42,12 +49,14 @@ const CardEditForm = ({ FileInput, card, updateCard, onRemove }) => {
         className={styles.input}
         type="text"
         name="company"
+        ref={companyRef}
         value={company}
         onChange={onChange}
       />
       <select
         className={styles.select}
         name="theme"
+        ref={themeRef}
         value={theme}
         onChange={onChange}
       >
@@ -59,6 +68,7 @@ const CardEditForm = ({ FileInput, card, updateCard, onRemove }) => {
         className={styles.input}
         type="text"
         name="title"
+        ref={titleRef}
         value={title}
         onChange={onChange}
       />
@@ -66,21 +76,23 @@ const CardEditForm = ({ FileInput, card, updateCard, onRemove }) => {
         className={styles.input}
         type="text"
         name="email"
+        ref={emailRef}
         value={email}
         onChange={onChange}
       />
       <textarea
         className={styles.textarea}
+        ref={messageRef}
         name="message"
         value={message}
         onChange={onChange}
-      ></textarea>
+      />
       <div className={styles.fileInput}>
         <FileInput name={fileName} onFileChange={onFileChange} />
       </div>
       <Button name="Delete" onClick={onSubmit} />
     </form>
   );
-};
+});
 
 export default CardEditForm;

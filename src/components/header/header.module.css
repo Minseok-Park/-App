@@ -1,4 +1,4 @@
-@value makerGreen,makerWhite,makerBlack from "../../common/colors.css";
+@value makerGreen, makerBlack, makerWhite from '../../common/colors.css';
 
 .header {
   width: 100%;
@@ -22,7 +22,7 @@
   right: 3em;
   top: 1em;
   padding: 0.8em;
-  border-radius: 0.6em;
+  border-radius: 20%;
   background-color: makerBlack;
   color: makerWhite;
   outline: 0;

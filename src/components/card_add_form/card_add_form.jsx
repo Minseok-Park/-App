@@ -1,8 +1,8 @@
-import React, { useRef, useState } from "react";
-import Button from "../button/button";
-import styles from "./card_add_form.module.css";
+import React, { memo, useRef, useState } from 'react';
+import styles from './card_add_form.module.css';
+import Button from '../button/button';
 
-const CardAddForm = ({ FileInput, onAdd }) => {
+const CardAddForm = memo(({ FileInput, onAdd }) => {
   const formRef = useRef();
   const nameRef = useRef();
   const companyRef = useRef();
@@ -10,40 +10,33 @@ const CardAddForm = ({ FileInput, onAdd }) => {
   const titleRef = useRef();
   const emailRef = useRef();
   const messageRef = useRef();
+  const [file, setFile] = useState({ fileName: null, fileURL: null });
 
-  const [file, setFile] = useState({
-    filename: null,
-    fileURL: null,
-  });
-
-  const onFileChange = (file) => {
+  const onFileChange = file => {
+    console.log(file);
     setFile({
       fileName: file.name,
       fileURL: file.url,
     });
   };
 
-  const onSubmit = (event) => {
+  const onSubmit = event => {
     event.preventDefault();
     const card = {
-      id: Date.now(),
-      name: nameRef.current.value || "",
-      company: companyRef.current.value || "",
+      id: Date.now(), //uuid
+      name: nameRef.current.value || '',
+      company: companyRef.current.value || '',
       theme: themeRef.current.value,
-      title: titleRef.current.value || "",
-      email: emailRef.current.value || "",
-      message: messageRef.current.value || "",
-      fileName: file.fileName || "",
-      fileURL: file.fileURL || "",
+      title: titleRef.current.value || '',
+      email: emailRef.current.value || '',
+      message: messageRef.current.value || '',
+      fileName: file.fileName || '',
+      fileURL: file.fileURL || '',
     };
-    onAdd(card);
     formRef.current.reset();
-    setFile({
-      fileName: null,
-      fileURL: null,
-    });
+    setFile({ fileName: null, fileURL: null });
+    onAdd(card);
   };
-
   return (
     <form ref={formRef} className={styles.form}>
       <input
@@ -75,27 +68,26 @@ const CardAddForm = ({ FileInput, onAdd }) => {
         className={styles.input}
         type="text"
         name="title"
-        placeholder="title"
+        placeholder="Title"
       />
       <input
         ref={emailRef}
         className={styles.input}
         type="text"
         name="email"
-        placeholder="email"
+        placeholder="Email"
       />
       <textarea
         ref={messageRef}
         className={styles.textarea}
         name="message"
-        placeholder="message"
-      ></textarea>
+        placeholder="Message"
+      />
       <div className={styles.fileInput}>
         <FileInput name={file.fileName} onFileChange={onFileChange} />
       </div>
       <Button name="Add" onClick={onSubmit} />
     </form>
   );
-};
-
+});
 export default CardAddForm;
